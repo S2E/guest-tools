@@ -74,21 +74,22 @@ typedef struct S2E_WINMON2_KERNEL_STRUCTS
 
     UINT64 KPCR;
 
-    //The KPRCB is a struct at the end of the KPCR
+    // The KPRCB is a struct at the end of the KPCR
     UINT64 KPRCB;
-    UINT64 KdDebuggerDataBlock; //Address in the kernel file
-    UINT64 KdVersionBlock; //Stored in the KPCR
+
+    UINT64 KdDebuggerDataBlock; // Address in the kernel file
+    UINT64 KdVersionBlock; // Stored in the KPCR
 
     /**
      * Index of the segment that contains the pointer
      * to the current thread.
      */
-    UINT64 EThreadSegment; //R_FS / RG_S
+    UINT64 EThreadSegment; // R_FS / RG_S
     UINT64 EThreadSegmentOffset;
     UINT64 EThreadStackBaseOffset;
     UINT64 EThreadStackLimitOffset;
     UINT64 EThreadProcessOffset;
-    UINT64 EThreadCid;
+    UINT64 EThreadCidOffset;
 
     UINT64 EProcessUniqueIdOffset;
     UINT64 EProcessCommitChargeOffset;
@@ -108,6 +109,7 @@ typedef struct S2E_WINMON2_KERNEL_STRUCTS
 } S2E_WINMON2_KERNEL_STRUCTS;
 
 #define S2E_MODULE_MAX_LEN 255
+
 typedef struct S2E_WINMON2_MODULE
 {
     UINT64 LoadBase;
@@ -151,7 +153,7 @@ typedef struct S2E_WINMON2_THREAD_CREATION
 
 typedef struct S2E_WINMON2_PROCESS_HANDLE_CREATION
 {
-/* The process that requested the handle */
+    /* The process that requested the handle */
     UINT64 SourceProcessId;
 
     /* The process that the handle is referencing */
