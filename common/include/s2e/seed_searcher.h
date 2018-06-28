@@ -58,6 +58,12 @@ static int s2e_seed_get_file(char *file, size_t bytes, int *should_fork) {
             ret = 0;
             *should_fork = 1;
             break;
+
+        /* Seed file available, start exploring it without fork*/
+        case 3:
+            ret = 0;
+            *should_fork = 0;
+            break;
     }
 
     return ret;
