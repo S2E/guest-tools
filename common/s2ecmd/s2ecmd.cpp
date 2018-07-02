@@ -251,6 +251,12 @@ static int handler_get_seed_file(int argc, const char **args) {
                 return 0;
             }
         }
+    } else {
+        if (ret == 0) {
+            s2e_message("Exploring using seed inputs");
+            printf("%s", seed_file);
+            return 0;
+        }
     }
 
     /* Keep looping */
