@@ -48,25 +48,25 @@ static int s2e_seed_get_file(char *file, size_t bytes, int *should_fork) {
     int ret = 0;
     switch (cmd.GetFile.Result) {
         /* No seed file, other states exploring, no need to fork */
-        case 0:
+        case SEED_GETFILE_FAIL_NO_FORK:
             ret = -1;
             *should_fork = 0;
             break;
 
         /* No seed file, start exploration without seeds */
-        case 1:
+        case SEED_GETFILE_FAIL_DO_FORK:
             ret = -1;
             *should_fork = 1;
             break;
 
         /* Seed file available, start exploring it */
-        case 2:
+        case SEED_GETFILE_SUCC_DO_FORK:
             ret = 0;
             *should_fork = 1;
             break;
 
         /* Seed file available, start exploring it without fork*/
-        case 3:
+        case SEED_GETFILE_SUCC_NO_FORK:
             ret = 0;
             *should_fork = 0;
             break;
