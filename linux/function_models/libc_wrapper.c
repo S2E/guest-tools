@@ -23,6 +23,7 @@
 #include <stdarg.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <wchar.h>
 
 #include "function_models.h"
 #include "s2e_so.h"
@@ -49,14 +50,6 @@ int strcmp(const char *str1, const char *str2) {
 
 int strncmp(const char *str1, const char *str2, size_t n) {
     FUNC_MODEL_BODY(strncmp, str1, str2, n);
-}
-
-void *memcpy(void *dest, const void *src, size_t n) {
-    FUNC_MODEL_BODY(memcpy, dest, src, n);
-}
-
-int memcmp(const void *str1, const void *str2, size_t n) {
-    FUNC_MODEL_BODY(memcmp, str1, str2, n);
 }
 
 char *strcat(char *dest, const char *src) {
@@ -95,4 +88,70 @@ int fprintf(FILE *stream, const char *format, ...) {
     va_end(arg);
 
     return done;
+}
+
+wchar_t *wcscpy(wchar_t *dest, const wchar_t *src) {
+    FUNC_MODEL_BODY(wcscpy, dest, src);
+}
+
+wchar_t *wcsncpy(wchar_t *dest, const wchar_t *src, size_t n) {
+    FUNC_MODEL_BODY(wcsncpy, dest, src, n);
+}
+
+size_t wcslen(const wchar_t *wcs) {
+    FUNC_MODEL_BODY(wcslen, wcs);
+}
+
+int wcscmp(const wchar_t *wcs1, const wchar_t *wcs2) {
+    FUNC_MODEL_BODY(wcscmp, wcs1, wcs2);
+}
+
+int wcsncmp(const wchar_t *wcs1, const wchar_t *wcs2, size_t n) {
+    FUNC_MODEL_BODY(wcsncmp, wcs1, wcs2, n);
+}
+
+wchar_t *wcscat(wchar_t *dest, const wchar_t *src) {
+    FUNC_MODEL_BODY(wcscat, dest, src);
+}
+
+wchar_t *wcsncat(wchar_t *dest, const wchar_t *src, size_t n) {
+    FUNC_MODEL_BODY(wcsncat, dest, src, n);
+}
+
+int wprintf(const wchar_t *format, ...) {
+    va_list arg;
+    int done;
+
+    va_start(arg, format);
+    if (!g_enable_function_models) {
+        done = vfwprintf(stdout, format, arg);
+    } else {
+        done = wprintf_model(format, arg);
+    }
+    va_end(arg);
+
+    return done;
+}
+
+int fwprintf(FILE *stream, const wchar_t *format, ...) {
+    va_list arg;
+    int done;
+
+    va_start(arg, format);
+    if (!g_enable_function_models) {
+        done = vfwprintf(stream, format, arg);
+    } else {
+        done = fwprintf_model(stream, format, arg);
+    }
+    va_end(arg);
+
+    return done;
+}
+
+void *memcpy(void *dest, const void *src, size_t n) {
+    FUNC_MODEL_BODY(memcpy, dest, src, n);
+}
+
+int memcmp(const void *str1, const void *str2, size_t n) {
+    FUNC_MODEL_BODY(memcmp, str1, str2, n);
 }

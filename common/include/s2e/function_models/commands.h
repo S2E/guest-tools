@@ -50,21 +50,24 @@ enum S2E_WRAPPER_COMMANDS {
     LIBCWRAPPER_STRLEN,
     LIBCWRAPPER_STRCMP,
     LIBCWRAPPER_STRNCMP,
-    LIBCWRAPPER_MEMCPY,
-    LIBCWRAPPER_MEMCMP,
     LIBCWRAPPER_STRCAT,
     LIBCWRAPPER_STRNCAT,
+
+    LIBCWRAPPER_MEMCPY,
+    LIBCWRAPPER_MEMCMP,
 
     LIBZWRAPPER_CRC,
 };
 
 PACK(struct S2E_LIBCWRAPPER_COMMAND_STRCPY {
+    unsigned char_size;
     uint64_t dest;
     uint64_t src;
     uint64_t ret;
 });
 
 PACK(struct S2E_LIBCWRAPPER_COMMAND_STRNCPY {
+    unsigned char_size;
     uint64_t dest;
     uint64_t src;
     uint64_t n;
@@ -72,21 +75,39 @@ PACK(struct S2E_LIBCWRAPPER_COMMAND_STRNCPY {
 });
 
 PACK(struct S2E_LIBCWRAPPER_COMMAND_STRLEN {
+    unsigned char_size;
     uint64_t str;
-    size_t ret;
+    unsigned ret;
 });
 
 PACK(struct S2E_LIBCWRAPPER_COMMAND_STRCMP {
+    unsigned char_size;
     uint64_t str1;
     uint64_t str2;
     int ret;
 });
 
 PACK(struct S2E_LIBCWRAPPER_COMMAND_STRNCMP {
+    unsigned char_size;
     uint64_t str1;
     uint64_t str2;
     uint64_t n;
     int ret;
+});
+
+PACK(struct S2E_LIBCWRAPPER_COMMAND_STRCAT {
+    unsigned char_size;
+    uint64_t dest;
+    uint64_t src;
+    uint64_t ret;
+});
+
+PACK(struct S2E_LIBCWRAPPER_COMMAND_STRNCAT {
+    unsigned char_size;
+    uint64_t dest;
+    uint64_t src;
+    uint64_t n;
+    uint64_t ret;
 });
 
 PACK(struct S2E_LIBCWRAPPER_COMMAND_MEMCPY {
@@ -101,19 +122,6 @@ PACK(struct S2E_LIBCWRAPPER_COMMAND_MEMCMP {
     uint64_t str2;
     uint64_t n;
     int ret;
-});
-
-PACK(struct S2E_LIBCWRAPPER_COMMAND_STRCAT {
-    uint64_t dest;
-    uint64_t src;
-    uint64_t ret;
-});
-
-PACK(struct S2E_LIBCWRAPPER_COMMAND_STRNCAT {
-    uint64_t dest;
-    uint64_t src;
-    uint64_t n;
-    uint64_t ret;
 });
 
 enum S2E_LIBZWRAPPER_CRC_TYPE { LIBZWRAPPER_CRC16, LIBZWRAPPER_CRC32 };
@@ -136,10 +144,10 @@ PACK(struct S2E_WRAPPER_COMMAND {
         struct S2E_LIBCWRAPPER_COMMAND_STRLEN Strlen;
         struct S2E_LIBCWRAPPER_COMMAND_STRCMP Strcmp;
         struct S2E_LIBCWRAPPER_COMMAND_STRNCMP Strncmp;
-        struct S2E_LIBCWRAPPER_COMMAND_MEMCPY Memcpy;
-        struct S2E_LIBCWRAPPER_COMMAND_MEMCMP Memcmp;
         struct S2E_LIBCWRAPPER_COMMAND_STRCAT Strcat;
         struct S2E_LIBCWRAPPER_COMMAND_STRNCAT Strncat;
+        struct S2E_LIBCWRAPPER_COMMAND_MEMCPY Memcpy;
+        struct S2E_LIBCWRAPPER_COMMAND_MEMCMP Memcmp;
         struct S2E_LIBZWRAPPER_COMMAND_CRC Crc;
     };
     uint64_t needOrigFunc;

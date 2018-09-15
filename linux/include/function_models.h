@@ -32,44 +32,64 @@
 
 #include <inttypes.h>
 #include <stdio.h>
+#include <wchar.h>
 
 //
-// Modelled functions types
+// Modelled functions typedefs
 //
-typedef char *(*T_strcpy)(char *dest, const char *src);
-typedef char *(*T_strncpy)(char *dest, const char *src, size_t n);
 
-typedef size_t (*T_strlen)(const char *s);
+typedef char *(*T_strcpy)(char *, const char *);
+typedef char *(*T_strncpy)(char *, const char *, size_t);
+typedef size_t (*T_strlen)(const char *);
+typedef int (*T_strcmp)(const char *, const char *);
+typedef int (*T_strncmp)(const char *, const char *, size_t);
+typedef char *(*T_strcat)(char *, const char *);
+typedef char *(*T_strncat)(char *, const char *, size_t);
+typedef int (*T_printf)(const char *, ...);
+typedef int (*T_fprintf)(FILE *, const char *, ...);
 
-typedef int (*T_strcmp)(const char *s1, const char *s2);
-typedef int (*T_strncmp)(const char *s1, const char *s2, size_t n);
+typedef wchar_t *(*T_wcscpy)(wchar_t *, const wchar_t *);
+typedef wchar_t *(*T_wcsncpy)(wchar_t *, const wchar_t *, size_t);
+typedef size_t (*T_wcslen)(const wchar_t *);
+typedef int (*T_wcscmp)(const wchar_t *, const wchar_t *);
+typedef int (*T_wcsncmp)(const wchar_t *, const wchar_t *, size_t);
+typedef wchar_t *(*T_wcscat)(wchar_t *, const wchar_t *);
+typedef wchar_t *(*T_wcsncat)(wchar_t *, const wchar_t *, size_t);
+typedef int (*T_wprintf)(const wchar_t *, ...);
+typedef int (*T_fwprintf)(FILE *, const wchar_t *, ...);
 
-typedef void *(*T_memcpy)(void *dest, const void *src, size_t n);
-typedef int (*T_memcmp)(const void *s1, const void *s2, size_t n);
+typedef void *(*T_memcpy)(void *, const void *, size_t);
+typedef int (*T_memcmp)(const void *, const void *, size_t);
 
-typedef int (*T_printf)(const char *format, ...);
-typedef int (*T_fprintf)(FILE *stream, const char *format, ...);
-
-typedef char *(*T_strcat)(char *dest, const char *src);
-typedef char *(*T_strncat)(char *dest, const char *src, size_t n);
-
-typedef uint32_t (*T_crc32)(uint32_t crc, const uint8_t *buf, unsigned len);
-typedef uint16_t (*T_crc16)(uint16_t crc, const uint8_t *buf, unsigned len);
+typedef uint32_t (*T_crc32)(uint32_t, const uint8_t *, unsigned);
+typedef uint16_t (*T_crc16)(uint16_t, const uint8_t *, unsigned);
 
 //
 // Pointers to copies of modelled functions
 //
+
 extern T_strcpy orig_strcpy;
 extern T_strncpy orig_strncpy;
 extern T_strlen orig_strlen;
 extern T_strcmp orig_strcmp;
 extern T_strncmp orig_strncmp;
-extern T_memcpy orig_memcpy;
-extern T_memcmp orig_memcmp;
-extern T_printf orig_printf;
-extern T_fprintf orig_fprintf;
 extern T_strcat orig_strcat;
 extern T_strncat orig_strncat;
+extern T_printf orig_printf;
+extern T_fprintf orig_fprintf;
+
+extern T_wcscpy orig_wcscpy;
+extern T_wcsncpy orig_wcsncpy;
+extern T_wcslen orig_wcslen;
+extern T_wcscmp orig_wcscmp;
+extern T_wcsncmp orig_wcsncmp;
+extern T_wcscat orig_wcscat;
+extern T_wcsncat orig_wcsncat;
+extern T_wprintf orig_wprintf;
+extern T_fwprintf orig_fwprintf;
+
+extern T_memcpy orig_memcpy;
+extern T_memcmp orig_memcmp;
 
 extern T_crc32 orig_crc32;
 extern T_crc16 orig_crc16;
@@ -96,24 +116,30 @@ void initialize_models();
 // Function model prototypes
 //
 
-char *strcpy_model(char *dest, const char *src);
-char *strncpy_model(char *dest, const char *src, size_t n);
+char *strcpy_model(char *, const char *);
+char *strncpy_model(char *, const char *, size_t);
+size_t strlen_model(const char *);
+int strcmp_model(const char *, const char *);
+int strncmp_model(const char *, const char *, size_t);
+char *strcat_model(char *, const char *);
+char *strncat_model(char *, const char *, size_t);
+int printf_model(const char *, ...);
+int fprintf_model(FILE *, const char *, ...);
 
-size_t strlen_model(const char *str);
+wchar_t *wcscpy_model(wchar_t *, const wchar_t *);
+wchar_t *wcsncpy_model(wchar_t *, const wchar_t *, size_t);
+size_t wcslen_model(const wchar_t *);
+int wcscmp_model(const wchar_t *, const wchar_t *);
+int wcsncmp_model(const wchar_t *, const wchar_t *, size_t);
+wchar_t *wcscat_model(wchar_t *, const wchar_t *);
+wchar_t *wcsncat_model(wchar_t *, const wchar_t *, size_t);
+int wprintf_model(const wchar_t *, ...);
+int fwprintf_model(FILE *, const wchar_t *, ...);
 
-int strcmp_model(const char *str1, const char *str2);
-int strncmp_model(const char *str1, const char *str2, size_t n);
+void *memcpy_model(void *, const void *, size_t);
+int memcmp_model(const void *, const void *, size_t);
 
-void *memcpy_model(void *dest, const void *src, size_t n);
-int memcmp_model(const void *str1, const void *str2, size_t n);
-
-char *strcat_model(char *dest, const char *src);
-char *strncat_model(char *dest, const char *src, size_t n);
-
-int printf_model(const char *format, ...);
-int fprintf_model(FILE *stream, const char *format, ...);
-
-uint32_t crc32_model(uint32_t crc, const uint8_t *buf, unsigned len);
-uint16_t crc16_model(uint16_t crc, const uint8_t *buf, unsigned len);
+uint32_t crc32_model(uint32_t, const uint8_t *, unsigned);
+uint16_t crc16_model(uint16_t, const uint8_t *, unsigned);
 
 #endif
