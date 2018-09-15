@@ -44,7 +44,7 @@ extern "C" {
 // TODO replace this with a stack frame bound, check for mapped memory page, ...
 static const unsigned MAX_STRLEN = 4096;
 
-enum S2E_LIBCWRAPPER_COMMANDS {
+enum S2E_WRAPPER_COMMANDS {
     LIBCWRAPPER_STRCPY,
     LIBCWRAPPER_STRNCPY,
     LIBCWRAPPER_STRLEN,
@@ -55,17 +55,17 @@ enum S2E_LIBCWRAPPER_COMMANDS {
     LIBCWRAPPER_STRCAT,
     LIBCWRAPPER_STRNCAT,
 
-    WRAPPER_CRC,
+    LIBZWRAPPER_CRC,
 };
 
 PACK(struct S2E_LIBCWRAPPER_COMMAND_STRCPY {
-    uint64_t dst;
+    uint64_t dest;
     uint64_t src;
     uint64_t ret;
 });
 
 PACK(struct S2E_LIBCWRAPPER_COMMAND_STRNCPY {
-    uint64_t dst;
+    uint64_t dest;
     uint64_t src;
     uint64_t n;
     uint64_t ret;
@@ -90,7 +90,7 @@ PACK(struct S2E_LIBCWRAPPER_COMMAND_STRNCMP {
 });
 
 PACK(struct S2E_LIBCWRAPPER_COMMAND_MEMCPY {
-    uint64_t dst;
+    uint64_t dest;
     uint64_t src;
     uint64_t n;
     uint64_t ret;
@@ -104,22 +104,22 @@ PACK(struct S2E_LIBCWRAPPER_COMMAND_MEMCMP {
 });
 
 PACK(struct S2E_LIBCWRAPPER_COMMAND_STRCAT {
-    uint64_t dst;
+    uint64_t dest;
     uint64_t src;
     uint64_t ret;
 });
 
 PACK(struct S2E_LIBCWRAPPER_COMMAND_STRNCAT {
-    uint64_t dst;
+    uint64_t dest;
     uint64_t src;
     uint64_t n;
     uint64_t ret;
 });
 
-enum S2E_WRAPPER_CRC_TYPE { S2E_WRAPPER_CRC16, S2E_WRAPPER_CRC32 };
+enum S2E_LIBZWRAPPER_CRC_TYPE { LIBZWRAPPER_CRC16, LIBZWRAPPER_CRC32 };
 
-PACK(struct S2E_WRAPPER_COMMAND_CRC {
-    enum S2E_WRAPPER_CRC_TYPE type;
+PACK(struct S2E_LIBZWRAPPER_COMMAND_CRC {
+    enum S2E_LIBZWRAPPER_CRC_TYPE type;
     // Pointer to the initial CRC value
     uint64_t initial_value_ptr;
     uint64_t xor_result;
@@ -128,8 +128,8 @@ PACK(struct S2E_WRAPPER_COMMAND_CRC {
     uint64_t ret;
 });
 
-PACK(struct S2E_LIBCWRAPPER_COMMAND {
-    enum S2E_LIBCWRAPPER_COMMANDS Command;
+PACK(struct S2E_WRAPPER_COMMAND {
+    enum S2E_WRAPPER_COMMANDS Command;
     union {
         struct S2E_LIBCWRAPPER_COMMAND_STRCPY Strcpy;
         struct S2E_LIBCWRAPPER_COMMAND_STRNCPY Strncpy;
@@ -140,7 +140,7 @@ PACK(struct S2E_LIBCWRAPPER_COMMAND {
         struct S2E_LIBCWRAPPER_COMMAND_MEMCMP Memcmp;
         struct S2E_LIBCWRAPPER_COMMAND_STRCAT Strcat;
         struct S2E_LIBCWRAPPER_COMMAND_STRNCAT Strncat;
-        struct S2E_WRAPPER_COMMAND_CRC Crc;
+        struct S2E_LIBZWRAPPER_COMMAND_CRC Crc;
     };
     uint64_t needOrigFunc;
 });

@@ -75,10 +75,10 @@ char *strcpy_model(char *dest, const char *src) {
         return (*orig_strcpy)(dest, src);
     }
 
-    struct S2E_LIBCWRAPPER_COMMAND cmd;
+    struct S2E_WRAPPER_COMMAND cmd;
 
     cmd.Command = LIBCWRAPPER_STRCPY;
-    cmd.Strcpy.dst = (uintptr_t) dest;
+    cmd.Strcpy.dest = (uintptr_t) dest;
     cmd.Strcpy.src = (uintptr_t) src;
     cmd.needOrigFunc = 1;
 
@@ -103,9 +103,9 @@ char *strncpy_model(char *dest, const char *src, size_t n) {
         return (*orig_strncpy)(dest, src, n);
     }
 
-    struct S2E_LIBCWRAPPER_COMMAND cmd;
+    struct S2E_WRAPPER_COMMAND cmd;
     cmd.Command = LIBCWRAPPER_STRNCPY;
-    cmd.Strncpy.dst = (uintptr_t) dest;
+    cmd.Strncpy.dest = (uintptr_t) dest;
     cmd.Strncpy.src = (uintptr_t) src;
     cmd.Strncpy.n = n;
     cmd.needOrigFunc = 1;
@@ -130,7 +130,7 @@ size_t strlen_model(const char *str) {
         return (*orig_strlen)(str);
     }
 
-    struct S2E_LIBCWRAPPER_COMMAND cmd;
+    struct S2E_WRAPPER_COMMAND cmd;
     cmd.Command = LIBCWRAPPER_STRLEN;
     cmd.Strlen.str = (uintptr_t) str;
     cmd.needOrigFunc = 1;
@@ -154,7 +154,7 @@ int strcmp_model(const char *str1, const char *str2) {
         return (*orig_strcmp)(str1, str2);
     }
 
-    struct S2E_LIBCWRAPPER_COMMAND cmd;
+    struct S2E_WRAPPER_COMMAND cmd;
     cmd.Command = LIBCWRAPPER_STRCMP;
     cmd.Strcmp.str1 = (uintptr_t) str1;
     cmd.Strcmp.str2 = (uintptr_t) str2;
@@ -184,7 +184,7 @@ int strncmp_model(const char *str1, const char *str2, size_t n) {
         return 0;
     }
 
-    struct S2E_LIBCWRAPPER_COMMAND cmd;
+    struct S2E_WRAPPER_COMMAND cmd;
     cmd.Command = LIBCWRAPPER_STRNCMP;
     cmd.Strncmp.str1 = (uintptr_t) str1;
     cmd.Strncmp.str2 = (uintptr_t) str2;
@@ -220,9 +220,9 @@ void *memcpy_model(void *dest, const void *src, size_t n) {
         return (*orig_memcpy)(dest, src, n);
     }
 
-    struct S2E_LIBCWRAPPER_COMMAND cmd;
+    struct S2E_WRAPPER_COMMAND cmd;
     cmd.Command = LIBCWRAPPER_MEMCPY;
-    cmd.Memcpy.dst = (uintptr_t) dest;
+    cmd.Memcpy.dest = (uintptr_t) dest;
     cmd.Memcpy.src = (uintptr_t) src;
     cmd.Memcpy.n = n;
     cmd.needOrigFunc = 1;
@@ -252,7 +252,7 @@ int memcmp_model(const void *str1, const void *str2, size_t n) {
         return (*orig_memcmp)(str1, str2, n);
     }
 
-    struct S2E_LIBCWRAPPER_COMMAND cmd;
+    struct S2E_WRAPPER_COMMAND cmd;
     cmd.Command = LIBCWRAPPER_MEMCMP;
     cmd.Memcmp.str1 = (uintptr_t) str1;
     cmd.Memcmp.str2 = (uintptr_t) str2;
@@ -282,10 +282,10 @@ char *strcat_model(char *dest, const char *src) {
         return (*orig_strcat)(dest, src);
     }
 
-    struct S2E_LIBCWRAPPER_COMMAND cmd;
+    struct S2E_WRAPPER_COMMAND cmd;
 
     cmd.Command = LIBCWRAPPER_STRCAT;
-    cmd.Strcat.dst = (uintptr_t) dest;
+    cmd.Strcat.dest = (uintptr_t) dest;
     cmd.Strcat.src = (uintptr_t) src;
     cmd.needOrigFunc = 1;
 
@@ -314,10 +314,10 @@ char *strncat_model(char *dest, const char *src, size_t n) {
         return (*orig_strncat)(dest, src, n);
     }
 
-    struct S2E_LIBCWRAPPER_COMMAND cmd;
+    struct S2E_WRAPPER_COMMAND cmd;
 
     cmd.Command = LIBCWRAPPER_STRNCAT;
-    cmd.Strncat.dst = (uintptr_t) dest;
+    cmd.Strncat.dest = (uintptr_t) dest;
     cmd.Strncat.src = (uintptr_t) src;
     cmd.Strncat.n = n;
     cmd.needOrigFunc = 1;
@@ -387,14 +387,14 @@ uint32_t crc32_model(uint32_t crc, const uint8_t *buf, unsigned len) {
         return 0;
     }
 
-    struct S2E_LIBCWRAPPER_COMMAND cmd;
+    struct S2E_WRAPPER_COMMAND cmd;
 
-    cmd.Command = WRAPPER_CRC;
+    cmd.Command = LIBZWRAPPER_CRC;
     cmd.Crc.initial_value_ptr = (uintptr_t) &crc;
     cmd.Crc.buffer = (uintptr_t) buf;
     cmd.Crc.size = len;
     cmd.Crc.xor_result = 1;
-    cmd.Crc.type = S2E_WRAPPER_CRC32;
+    cmd.Crc.type = LIBZWRAPPER_CRC32;
     cmd.needOrigFunc = 1;
 
     s2e_invoke_plugin("FunctionModels", &cmd, sizeof(cmd));
@@ -418,13 +418,13 @@ uint16_t crc16_model(uint16_t crc, const uint8_t *buf, unsigned len) {
         return 0;
     }
 
-    struct S2E_LIBCWRAPPER_COMMAND cmd;
+    struct S2E_WRAPPER_COMMAND cmd;
 
-    cmd.Command = WRAPPER_CRC;
+    cmd.Command = LIBZWRAPPER_CRC;
     cmd.Crc.initial_value_ptr = (uintptr_t) &crc;
     cmd.Crc.buffer = (uintptr_t) buf;
     cmd.Crc.size = len;
-    cmd.Crc.type = S2E_WRAPPER_CRC16;
+    cmd.Crc.type = LIBZWRAPPER_CRC16;
     cmd.needOrigFunc = 1;
 
     s2e_invoke_plugin("FunctionModels", &cmd, sizeof(cmd));

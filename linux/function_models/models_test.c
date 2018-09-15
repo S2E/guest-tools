@@ -216,7 +216,7 @@ int main(int argc, char *argv[]) {
     const unsigned src_length = strlen(src);
     s2e_make_concolic(src, src_length, "source_string");
 
-    s2e_printf("Testing function model for libc: %s\n", argv[1]);
+    s2e_printf("Testing %s function model\n", argv[1]);
 
     initialize_models();
 
