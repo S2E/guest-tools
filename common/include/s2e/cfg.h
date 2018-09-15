@@ -30,8 +30,8 @@
 #ifndef S2E_CFG_H
 #define S2E_CFG_H
 
-#include <s2e/s2e.h>
 #include "cfg/commands.h"
+#include "s2e.h"
 
 #ifdef __cplusplus
 extern "C" {

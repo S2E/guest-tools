@@ -1,5 +1,8 @@
+/// S2E Selective Symbolic Execution Platform
+///
 /// Copyright (c) 2010, Dependable Systems Laboratory, EPFL
 /// Copyright (c) 2016, Cyberhaven, Inc
+///
 /// All rights reserved.
 ///
 /// Redistribution and use in source and binary forms, with or without

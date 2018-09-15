@@ -1,6 +1,6 @@
 /// S2E Selective Symbolic Execution Platform
 ///
-/// Copyright (c) 2018 Cyberhaven
+/// Copyright (c) 2018 Adrian Herrera
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -20,41 +20,21 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 /// SOFTWARE.
 
-#ifndef S2E_TEST_CASE_GENERATOR_COMMANDS_H
-#define S2E_TEST_CASE_GENERATOR_COMMANDS_H
-
-#include <inttypes.h>
-
-#include <s2e/compiler.h>
+#ifndef S2E_COMPILER_H_
+#define S2E_COMPILER_H_
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-enum S2E_TCGEN_COMMANDS {
-    TCGEN_ADD_CONCRETE_FILE_CHUNK,
-};
-
-PACK(struct S2E_TCGEN_CONCRETE_FILE_CHUNK {
-    // Guest pointer to a null-terminated string indicating the name of the file
-    uint64_t name;
-
-    // The offset in the file where this chunk starts
-    uint64_t offset;
-
-    // Guest pointer to chunk data
-    uint64_t data;
-
-    // The size of the chunk
-    uint64_t size;
-});
-
-PACK(struct S2E_TCGEN_COMMAND {
-    enum S2E_TCGEN_COMMANDS Command;
-    union {
-        struct S2E_TCGEN_CONCRETE_FILE_CHUNK Chunk;
-    };
-});
+// Define packed structs across various compilers
+#if defined(__GNUC__) || defined(__MINGW32__)
+#define PACK(__Declaration__) __Declaration__ __attribute__((__packed__))
+#elif defined(_MSC_VER)
+#define PACK(__Declaration__) __pragma(pack(push, 1)) __Declaration__ __pragma(pack(pop))
+#else
+#error "Unsupported compiler"
+#endif
 
 #ifdef __cplusplus
 }

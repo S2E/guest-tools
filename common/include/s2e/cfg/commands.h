@@ -30,21 +30,23 @@ extern "C" {
 
 #include <inttypes.h>
 
+#include <s2e/compiler.h>
+
 enum S2E_CFG_COMMANDS {
     CFG_REGISTER_FUNCTION,
 };
 
-struct S2E_CFG_COMMAND_FUNCTION {
+PACK(struct S2E_CFG_COMMAND_FUNCTION {
     uint64_t RunTimeFunctionAddress;
     uint64_t FunctionName;
-} __attribute__((packed));
+});
 
-struct S2E_CFG_COMMAND {
+PACK(struct S2E_CFG_COMMAND {
     enum S2E_CFG_COMMANDS Command;
     union {
         struct S2E_CFG_COMMAND_FUNCTION Function;
     };
-} __attribute__((packed));
+});
 
 #ifdef __cplusplus
 }

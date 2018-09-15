@@ -1,4 +1,3 @@
-///
 /// S2E Selective Symbolic Execution Platform
 ///
 /// Copyright (c) 2010-2017, Dependable Systems Laboratory, EPFL

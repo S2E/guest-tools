@@ -23,7 +23,7 @@
 #ifndef S2E_SEED_H
 #define S2E_SEED_H
 
-#include <s2e/s2e.h>
+#include "s2e.h"
 #include "seed_searcher/commands.h"
 
 #ifdef __cplusplus

@@ -29,13 +29,15 @@ extern "C" {
 
 #include <inttypes.h>
 
+#include <s2e/compiler.h>
+
 enum S2E_SEEDSEARCHER_COMMANDS {
     SEED_GET_SEED_FILE,
     SEED_ENABLE_SEARCHER,
     SEED_DONE,
 };
 
-struct S2E_SEEDSEARCHER_COMMAND_GETFILE {
+PACK(struct S2E_SEEDSEARCHER_COMMAND_GETFILE {
     /// Pointer to guest memory where the plugin will store the file name
     uint64_t FileName;
 
@@ -44,14 +46,14 @@ struct S2E_SEEDSEARCHER_COMMAND_GETFILE {
 
     /// 1 on success, 0 on failure (no seed file available)
     uint64_t Result;
-} __attribute__((packed));
+});
 
-struct S2E_SEEDSEARCHER_COMMAND {
+PACK(struct S2E_SEEDSEARCHER_COMMAND {
     enum S2E_SEEDSEARCHER_COMMANDS Command;
     union {
         struct S2E_SEEDSEARCHER_COMMAND_GETFILE GetFile;
     };
-} __attribute__((packed));
+});
 
 #ifdef __cplusplus
 }

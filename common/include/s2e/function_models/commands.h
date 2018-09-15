@@ -39,6 +39,8 @@ extern "C" {
 
 #include <inttypes.h>
 
+#include <s2e/compiler.h>
+
 // TODO replace this with a stack frame bound, check for mapped memory page, ...
 static const unsigned MAX_STRLEN = 4096;
 
@@ -56,67 +58,67 @@ enum S2E_LIBCWRAPPER_COMMANDS {
     WRAPPER_CRC,
 };
 
-struct S2E_LIBCWRAPPER_COMMAND_STRCPY {
+PACK(struct S2E_LIBCWRAPPER_COMMAND_STRCPY {
     uint64_t dst;
     uint64_t src;
     uint64_t ret;
-} __attribute__((packed));
+});
 
-struct S2E_LIBCWRAPPER_COMMAND_STRNCPY {
+PACK(struct S2E_LIBCWRAPPER_COMMAND_STRNCPY {
     uint64_t dst;
     uint64_t src;
     uint64_t n;
     uint64_t ret;
-} __attribute__((packed));
+});
 
-struct S2E_LIBCWRAPPER_COMMAND_STRLEN {
+PACK(struct S2E_LIBCWRAPPER_COMMAND_STRLEN {
     uint64_t str;
     size_t ret;
-} __attribute__((packed));
+});
 
-struct S2E_LIBCWRAPPER_COMMAND_STRCMP {
+PACK(struct S2E_LIBCWRAPPER_COMMAND_STRCMP {
     uint64_t str1;
     uint64_t str2;
     int ret;
-} __attribute__((packed));
+});
 
-struct S2E_LIBCWRAPPER_COMMAND_STRNCMP {
-    uint64_t str1;
-    uint64_t str2;
-    uint64_t n;
-    int ret;
-} __attribute__((packed));
-
-struct S2E_LIBCWRAPPER_COMMAND_MEMCPY {
-    uint64_t dst;
-    uint64_t src;
-    uint64_t n;
-    uint64_t ret;
-} __attribute__((packed));
-
-struct S2E_LIBCWRAPPER_COMMAND_MEMCMP {
+PACK(struct S2E_LIBCWRAPPER_COMMAND_STRNCMP {
     uint64_t str1;
     uint64_t str2;
     uint64_t n;
     int ret;
-} __attribute__((packed));
+});
 
-struct S2E_LIBCWRAPPER_COMMAND_STRCAT {
-    uint64_t dst;
-    uint64_t src;
-    uint64_t ret;
-} __attribute__((packed));
-
-struct S2E_LIBCWRAPPER_COMMAND_STRNCAT {
+PACK(struct S2E_LIBCWRAPPER_COMMAND_MEMCPY {
     uint64_t dst;
     uint64_t src;
     uint64_t n;
     uint64_t ret;
-} __attribute__((packed));
+});
+
+PACK(struct S2E_LIBCWRAPPER_COMMAND_MEMCMP {
+    uint64_t str1;
+    uint64_t str2;
+    uint64_t n;
+    int ret;
+});
+
+PACK(struct S2E_LIBCWRAPPER_COMMAND_STRCAT {
+    uint64_t dst;
+    uint64_t src;
+    uint64_t ret;
+});
+
+PACK(struct S2E_LIBCWRAPPER_COMMAND_STRNCAT {
+    uint64_t dst;
+    uint64_t src;
+    uint64_t n;
+    uint64_t ret;
+});
 
 enum S2E_WRAPPER_CRC_TYPE { S2E_WRAPPER_CRC16, S2E_WRAPPER_CRC32 };
 
-struct S2E_WRAPPER_COMMAND_CRC {
+PACK(struct S2E_WRAPPER_COMMAND_CRC {
     enum S2E_WRAPPER_CRC_TYPE type;
     // Pointer to the initial CRC value
     uint64_t initial_value_ptr;
@@ -124,9 +126,9 @@ struct S2E_WRAPPER_COMMAND_CRC {
     uint64_t buffer;
     uint64_t size;
     uint64_t ret;
-} __attribute__((packed));
+});
 
-struct S2E_LIBCWRAPPER_COMMAND {
+PACK(struct S2E_LIBCWRAPPER_COMMAND {
     enum S2E_LIBCWRAPPER_COMMANDS Command;
     union {
         struct S2E_LIBCWRAPPER_COMMAND_STRCPY Strcpy;
@@ -141,7 +143,7 @@ struct S2E_LIBCWRAPPER_COMMAND {
         struct S2E_WRAPPER_COMMAND_CRC Crc;
     };
     uint64_t needOrigFunc;
-} __attribute__((packed));
+});
 
 #ifdef __cplusplus
 }
