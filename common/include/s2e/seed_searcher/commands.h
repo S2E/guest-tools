@@ -35,6 +35,13 @@ enum S2E_SEEDSEARCHER_COMMANDS {
     SEED_DONE,
 };
 
+enum S2E_SEEDSEARCHER_GETFILE_RESULTS {
+    SEED_GETFILE_FAIL_NO_FORK,
+    SEED_GETFILE_FAIL_DO_FORK,
+    SEED_GETFILE_SUCC_DO_FORK,
+    SEED_GETFILE_SUCC_NO_FORK,
+};
+
 struct S2E_SEEDSEARCHER_COMMAND_GETFILE {
     /// Pointer to guest memory where the plugin will store the file name
     uint64_t FileName;
